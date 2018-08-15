@@ -25,7 +25,7 @@ void MainWindow::open()
 
     close_all();
 
-    ui->statusBar->showMessage("Directory " + directoryPath + " is opened");
+    ui->statusBar->showMessage("Directory " + directoryPath + " is opened, current file is: " + imgViewer.current().c_str());
 }
 
 void MainWindow::close_all()
@@ -75,12 +75,14 @@ void MainWindow::clearRecentList()
 
 void MainWindow::next()
 {
-     ui->statusBar->showMessage("Next action");
+    string next = "Next action. Next pic is: " + imgViewer.next();
+    ui->statusBar->showMessage(next.c_str());
 }
 
 void MainWindow::prev()
 {
-     ui->statusBar->showMessage("Prev action");
+    string prev = "Prev action. Prev pic is: " + imgViewer.prev();
+    ui->statusBar->showMessage(prev.c_str());
 }
 
 void MainWindow::initInterface()

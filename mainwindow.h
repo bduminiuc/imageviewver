@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QFileDialog>
 
+#include "imageviewer.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -35,8 +37,10 @@ private slots:
     void prev();
 
 private:
-    Ui::MainWindow *ui;
     void initInterface();
+
+    Ui::MainWindow *ui;
+    ImageViewer imgViewer;
 };
 
 #endif // MAINWINDOW_H
