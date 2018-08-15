@@ -18,7 +18,21 @@ public:
 
 private slots:
     void open();
-    void close();
+    void close_all();
+
+    void zoomIn();
+    void zoomOut();
+
+    void check();
+    void move();
+    void copy();
+    void remove();
+
+    void about();
+    void clearRecentList();
+
+    void next();
+    void prev();
 
 private:
     Ui::MainWindow *ui;
