@@ -22,14 +22,17 @@ void MainWindow::open()
     QString directoryPath = QFileDialog::getExistingDirectory(nullptr, "Directory Dialog", "");
 
     if (directoryPath.isEmpty())
+        // if user press CANCEL in FileDialog
         return;
 
     close_all();
     imgViewer.openDirectory(directoryPath);
 
-    setImage(imgViewer.current());
+    // TODO: smth like
+    // if (imgViewer.hasImages())
+    //     setImages();
 
-    ui->statusBar->showMessage("Directory " + directoryPath + " is opened, current file is: " + imgViewer.current());
+    setImage(imgViewer.current());
 }
 
 void MainWindow::close_all()
