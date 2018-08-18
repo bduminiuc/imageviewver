@@ -38,9 +38,8 @@ void MainWindow::close_all()
         imgViewer.closeDirectory();
 
         imageLabel->clear();
+        imageLabel->adjustSize();
         imageLabel->setVisible(false);
-
-        //scrollArea->;
 
         QWidget::setWindowTitle("ImageViewer");
     }
