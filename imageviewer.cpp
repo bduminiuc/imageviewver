@@ -5,6 +5,23 @@ ImageViewer::ImageViewer()
 
 }
 
+bool ImageViewer::openDirectory(const string &path)
+{
+    directory = path;
+    return true;
+}
+
+void ImageViewer::closeDirectory()
+{
+    directory = "";
+    i = 0;
+}
+
+bool ImageViewer::isOpened()
+{
+    return ! directory.empty();
+}
+
 string ImageViewer::next()
 {
     if (i == stub_images.size() - 1)

@@ -10,12 +10,16 @@ class ImageViewer
 {
 public:
     ImageViewer();
+    bool openDirectory(const string & path);
+    void closeDirectory();
+    bool isOpened();
 
     string next();
     string prev();
     string current();
 
 private:
+    string directory;
     vector<string> stub_images {
         "E:/git-workspace/qt/image-viewer/images/Copy_24x24.png",
         "E:/git-workspace/qt/image-viewer/images/59Xt_3MUvkk.jpg",

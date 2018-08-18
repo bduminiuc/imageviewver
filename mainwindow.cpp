@@ -25,6 +25,8 @@ void MainWindow::open()
         return;
 
     close_all();
+    imgViewer.openDirectory(directoryPath.toUtf8().constData());
+
     setImage(imgViewer.current().c_str());
 
     ui->statusBar->showMessage("Directory " + directoryPath + " is opened, current file is: " + imgViewer.current().c_str());
@@ -32,7 +34,14 @@ void MainWindow::open()
 
 void MainWindow::close_all()
 {
-    ui->statusBar->showMessage("Close action");
+    if (imgViewer.isOpened()) {
+        imgViewer.closeDirectory();
+
+        imageLabel->clear();
+        imageLabel->setVisible(false);
+
+        ui->statusBar->showMessage("Close action");
+    }
 }
 
 void MainWindow::zoomIn()
