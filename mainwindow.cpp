@@ -25,7 +25,7 @@ void MainWindow::open()
         return;
 
     close_all();
-    imgViewer.openDirectory(directoryPath.toUtf8().constData());
+    imgViewer.openDirectory(directoryPath);
 
     setImage(imgViewer.current());
 
@@ -40,7 +40,9 @@ void MainWindow::close_all()
         imageLabel->clear();
         imageLabel->setVisible(false);
 
-        ui->statusBar->showMessage("Close action");
+        //scrollArea->;
+
+        QWidget::setWindowTitle("ImageViewer");
     }
 }
 
@@ -136,4 +138,6 @@ void MainWindow::setImage(const QString & path)
     imageLabel->setPixmap(QPixmap::fromImage(*currentImage));
     imageLabel->adjustSize();
     imageLabel->setVisible(true);
+
+    QWidget::setWindowTitle(path + " - ImageViewer");
 }
