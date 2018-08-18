@@ -27,9 +27,9 @@ void MainWindow::open()
     close_all();
     imgViewer.openDirectory(directoryPath.toUtf8().constData());
 
-    setImage(imgViewer.current().c_str());
+    setImage(imgViewer.current());
 
-    ui->statusBar->showMessage("Directory " + directoryPath + " is opened, current file is: " + imgViewer.current().c_str());
+    ui->statusBar->showMessage("Directory " + directoryPath + " is opened, current file is: " + imgViewer.current());
 }
 
 void MainWindow::close_all()
@@ -86,12 +86,12 @@ void MainWindow::clearRecentList()
 
 void MainWindow::next()
 {
-    setImage(imgViewer.next().c_str());
+    setImage(imgViewer.next());
 }
 
 void MainWindow::prev()
 {
-    setImage(imgViewer.prev().c_str());
+    setImage(imgViewer.prev());
 }
 
 void MainWindow::initInterface()

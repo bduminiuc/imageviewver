@@ -5,44 +5,51 @@ ImageViewer::ImageViewer()
 
 }
 
-bool ImageViewer::openDirectory(const string &path)
+bool ImageViewer::openDirectory(const QString &path)
 {
     directory = path;
+    //directory = "E:/git-workspace/qt/";
+
+    QDirIterator it(directory, formats, QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext())
+        images.push_back(it.next().toUtf8().constData());
+
     return true;
 }
 
 void ImageViewer::closeDirectory()
 {
     directory = "";
+    images.erase(images.begin());
     i = 0;
 }
 
 bool ImageViewer::isOpened()
 {
-    return ! directory.empty();
+    return ! directory.isEmpty();
 }
 
-string ImageViewer::next()
+QString ImageViewer::next()
 {
-    if (i == stub_images.size() - 1)
+    if (i == images.size() - 1)
         i = 0;
     else
         i++;
 
-    return stub_images[i];
+    return images[i];
 }
 
-string ImageViewer::prev()
+QString ImageViewer::prev()
 {
     if (i == 0)
-        i = stub_images.size() - 1;
+        i = images.size() - 1;
     else
         i--;
 
-    return stub_images[i];
+    return images[i];
 }
 
-string ImageViewer::current()
+QString ImageViewer::current()
 {
-    return stub_images[i];
+    return images[i];
 }

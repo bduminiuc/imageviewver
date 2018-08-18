@@ -4,23 +4,34 @@
 #include <string>
 #include <vector>
 
+#include <QDirIterator>
+
 using namespace std;
 
 class ImageViewer
 {
 public:
     ImageViewer();
-    bool openDirectory(const string & path);
+    bool openDirectory(const QString & path);
     void closeDirectory();
     bool isOpened();
 
-    string next();
-    string prev();
-    string current();
+    QString next();
+    QString prev();
+    QString current();
 
 private:
-    string directory;
-    vector<string> stub_images {
+    QString directory;
+    QStringList formats {
+        "*.jpg",
+        "*.png",
+        "*.bmp",
+        "*.ico",
+    };
+
+    QStringList images;
+    /*
+    QStringList images {
         "E:/git-workspace/qt/image-viewer/images/Copy_24x24.png",
         "E:/git-workspace/qt/image-viewer/images/59Xt_3MUvkk.jpg",
         "E:/git-workspace/qt/image-viewer/images/2016-07-18-17-19-47-393.jpg",
@@ -31,8 +42,9 @@ private:
         "E:/git-workspace/qt/image-viewer/images/Remove_24x24.png",
         "E:/git-workspace/qt/image-viewer/images/Zoom In_24x24.png",
     };
+    */
 
-    size_t i = 0;
+    int i = 0;
 };
 
 #endif // IMAGEVIEWER_H
