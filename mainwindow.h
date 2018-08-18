@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QLabel>
+#include <QScrollArea>
+#include <QImageReader>
 
 #include "imageviewer.h"
 
@@ -38,9 +41,12 @@ private slots:
 
 private:
     void initInterface();
+    void setImage(const QString &);
 
     Ui::MainWindow *ui;
     ImageViewer imgViewer;
+    QLabel *imageLabel;
+    QScrollArea *scrollArea;
 };
 
 #endif // MAINWINDOW_H

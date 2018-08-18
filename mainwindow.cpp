@@ -1,10 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    imageLabel(new QLabel),
+    scrollArea(new QScrollArea)
 {
     ui->setupUi(this);
     initInterface();
@@ -24,6 +25,7 @@ void MainWindow::open()
         return;
 
     close_all();
+    setImage(imgViewer.current().c_str());
 
     ui->statusBar->showMessage("Directory " + directoryPath + " is opened, current file is: " + imgViewer.current().c_str());
 }
@@ -75,19 +77,27 @@ void MainWindow::clearRecentList()
 
 void MainWindow::next()
 {
-    string next = "Next action. Next pic is: " + imgViewer.next();
-    ui->statusBar->showMessage(next.c_str());
+    setImage(imgViewer.next().c_str());
 }
 
 void MainWindow::prev()
 {
-    string prev = "Prev action. Prev pic is: " + imgViewer.prev();
-    ui->statusBar->showMessage(prev.c_str());
+    setImage(imgViewer.prev().c_str());
 }
 
 void MainWindow::initInterface()
 {
     this->showMaximized();
+
+    scrollArea->setBackgroundRole(QPalette::Dark);
+    scrollArea->setWidget(imageLabel);
+    scrollArea->setAlignment(Qt::AlignCenter);
+    setCentralWidget(scrollArea);
+
+    imageLabel->setVisible(false);
+    imageLabel->setBackgroundRole(QPalette::Light);
+    imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    imageLabel->setScaledContents(true);
 
     // create connections between actions and slots
     connect(ui->action_open, &QAction::triggered, this, &MainWindow::open);
@@ -102,4 +112,19 @@ void MainWindow::initInterface()
     connect(ui->action_clear_recent_list, &QAction::triggered, this, &MainWindow::clearRecentList);
     connect(ui->action_next, &QAction::triggered, this, &MainWindow::next);
     connect(ui->action_prev, &QAction::triggered, this, &MainWindow::prev);
+}
+
+void MainWindow::setImage(const QString & path)
+{
+    QImageReader reader(path);
+    reader.setAutoTransform(true);
+
+    QImage *currentImage = new QImage(reader.read());
+
+    if (currentImage->isNull())
+        return;
+
+    imageLabel->setPixmap(QPixmap::fromImage(*currentImage));
+    imageLabel->adjustSize();
+    imageLabel->setVisible(true);
 }
