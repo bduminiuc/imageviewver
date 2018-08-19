@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QScrollArea>
 #include <QImageReader>
+#include <QMessageBox>
 
 #include "imageviewer.h"
 
@@ -44,7 +45,9 @@ private slots:
 private:
     void initInterface();
     void setImage(const QString &);
+    void switchImage(bool direction);
     QSize getCurrentSize();
+    void setViewStatusBarMsg(int current, int total);
 
     Ui::MainWindow *ui;
 

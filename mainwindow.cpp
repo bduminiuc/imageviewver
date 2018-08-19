@@ -28,11 +28,14 @@ void MainWindow::open()
     close_all();
     imgViewer.openDirectory(directoryPath);
 
-    // TODO: smth like
-    // if (imgViewer.hasImages())
-    //     setImages();
-
-    setImage(imgViewer.current());
+    if (imgViewer.hasImages()) {
+        setImage(imgViewer.current());
+        setViewStatusBarMsg(imgViewer.currentIdx(), imgViewer.count());
+    }
+    else {
+        QMessageBox::critical(this, "Ошибка", "В выбранной папке нет изображений! Откройте папку с изображениями.");
+        open();
+    }
 }
 
 void MainWindow::close_all()
@@ -92,16 +95,12 @@ void MainWindow::clearRecentList()
 
 void MainWindow::next()
 {
-    // TODO: add to status bar
-    // "current 8 of 43"
-    setImage(imgViewer.next());
+    switchImage(true);
 }
 
 void MainWindow::prev()
 {
-    // TODO: add to status bar
-    // "current 8 of 43"
-    setImage(imgViewer.prev());
+    switchImage(false);
 }
 
 void MainWindow::initInterface()
@@ -154,10 +153,26 @@ void MainWindow::setImage(const QString & path)
     QWidget::setWindowTitle(path + " - ImageViewer");
 }
 
+// direction means next action or prev
+void MainWindow::switchImage(bool direction)
+{
+    if (imgViewer.hasImages()){
+        setImage(direction ? imgViewer.next() : imgViewer.prev());
+        setViewStatusBarMsg(imgViewer.currentIdx(), imgViewer.count());
+    }
+}
+
 QSize MainWindow::getCurrentSize()
 {
     return QSize(QWidget::width() - 10,
                  QWidget::height() - ui->menu->height() - 2*ui->statusBar->height() - ui->menuBar->height());
+}
+
+void MainWindow::setViewStatusBarMsg(int current, int total)
+{
+    ui->statusBar->showMessage(QString::number(current) +
+                               " из " +
+                               QString::number(total));
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
