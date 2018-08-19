@@ -142,9 +142,14 @@ void MainWindow::setImage(const QString & path)
     if (currentImage.isNull())
         return;
 
-    QPixmap pixmap = QPixmap::fromImage(currentImage).scaled(getCurrentSize(), Qt::KeepAspectRatio);
+    QSize currentSize = getCurrentSize();
+    QPixmap pixmap = QPixmap::fromImage(currentImage);
 
-    imageLabel->setPixmap(pixmap);
+    if (currentImage.width() > currentSize.width() || currentImage.height() > currentSize.height())
+        imageLabel->setPixmap(pixmap.scaled(currentSize, Qt::KeepAspectRatio));
+    else
+        imageLabel->setPixmap(pixmap);
+
     imageLabel->adjustSize();
     imageLabel->setVisible(true);
 
@@ -165,7 +170,7 @@ void MainWindow::switchImage(bool direction)
 QSize MainWindow::getCurrentSize()
 {
     return QSize(QWidget::width() - 10,
-                 QWidget::height() - ui->menu->height() - 2*ui->statusBar->height() - ui->menuBar->height());
+                 QWidget::height() - ui->mainToolBar->height() - 2*ui->statusBar->height() - ui->menuBar->height());
 }
 
 void MainWindow::setViewStatusBarMsg(int current, int total)
