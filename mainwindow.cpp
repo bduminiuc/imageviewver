@@ -134,6 +134,7 @@ void MainWindow::initInterface()
 
 void MainWindow::setImage(const QString & path)
 {
+    // reading of current image
     QImageReader reader(path);
     reader.setAutoTransform(true);
 
@@ -142,13 +143,17 @@ void MainWindow::setImage(const QString & path)
     if (currentImage.isNull())
         return;
 
+
+    // init pixmap to add in label
     QSize currentSize = getCurrentSize();
     QPixmap pixmap = QPixmap::fromImage(currentImage);
 
+    // scale pixmap if image is wider or higher than the window
     if (currentImage.width() > currentSize.width() || currentImage.height() > currentSize.height())
         imageLabel->setPixmap(pixmap.scaled(currentSize, Qt::KeepAspectRatio));
     else
         imageLabel->setPixmap(pixmap);
+
 
     imageLabel->adjustSize();
     imageLabel->setVisible(true);
