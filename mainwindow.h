@@ -39,14 +39,21 @@ private slots:
     void next();
     void prev();
 
+    void resizeEvent (QResizeEvent * event);
+
 private:
     void initInterface();
     void setImage(const QString &);
+    QSize getCurrentSize();
 
     Ui::MainWindow *ui;
+
     ImageViewer imgViewer;
+    QString currentImagePath;
+
     QLabel *imageLabel;
     QScrollArea *scrollArea;
+
 };
 
 #endif // MAINWINDOW_H

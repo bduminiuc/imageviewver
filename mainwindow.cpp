@@ -44,6 +44,8 @@ void MainWindow::close_all()
         imageLabel->adjustSize();
         imageLabel->setVisible(false);
 
+        currentImagePath.clear();
+
         QWidget::setWindowTitle("ImageViewer");
     }
 }
@@ -132,14 +134,30 @@ void MainWindow::setImage(const QString & path)
     QImageReader reader(path);
     reader.setAutoTransform(true);
 
-    QImage *currentImage = new QImage(reader.read());
+    QImage currentImage(reader.read());
 
-    if (currentImage->isNull())
+    if (currentImage.isNull())
         return;
 
-    imageLabel->setPixmap(QPixmap::fromImage(*currentImage));
+    QPixmap pixmap = QPixmap::fromImage(currentImage).scaled(getCurrentSize(), Qt::KeepAspectRatio);
+
+    imageLabel->setPixmap(pixmap);
     imageLabel->adjustSize();
     imageLabel->setVisible(true);
 
+    currentImagePath = path;
+
     QWidget::setWindowTitle(path + " - ImageViewer");
+}
+
+QSize MainWindow::getCurrentSize()
+{
+    return QSize(QWidget::width() - 10,
+                 QWidget::height() - ui->menu->height() - 2*ui->statusBar->height() - ui->menuBar->height());
+}
+
+void MainWindow::resizeEvent(QResizeEvent* event)
+{
+    if (!currentImagePath.isEmpty())
+        setImage(currentImagePath);
 }
