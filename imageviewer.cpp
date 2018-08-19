@@ -20,7 +20,7 @@ bool ImageViewer::openDirectory(const QString &path)
 void ImageViewer::closeDirectory()
 {
     directory = "";
-    images.erase(images.begin());
+    images.clear();
     i = 0;
 }
 
@@ -52,4 +52,19 @@ QString ImageViewer::prev()
 QString ImageViewer::current()
 {
     return images[i];
+}
+
+bool ImageViewer::hasImages()
+{
+    return ! images.empty();
+}
+
+int ImageViewer::count()
+{
+    return images.size();
+}
+
+int ImageViewer::currentIdx()
+{
+    return i + 1;
 }

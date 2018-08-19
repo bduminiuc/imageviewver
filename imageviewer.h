@@ -20,6 +20,10 @@ public:
     QString prev();
     QString current();
 
+    bool hasImages();
+    int count();
+    int currentIdx();
+
 private:
     QString directory;
     QStringList formats {
@@ -30,6 +34,7 @@ private:
     };
 
     QStringList images;
+
     /*
     QStringList images {
         "E:/git-workspace/qt/image-viewer/images/Copy_24x24.png",
