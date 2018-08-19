@@ -92,11 +92,15 @@ void MainWindow::clearRecentList()
 
 void MainWindow::next()
 {
+    // TODO: add to status bar
+    // "current 8 of 43"
     setImage(imgViewer.next());
 }
 
 void MainWindow::prev()
 {
+    // TODO: add to status bar
+    // "current 8 of 43"
     setImage(imgViewer.prev());
 }
 
