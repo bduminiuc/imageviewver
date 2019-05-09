@@ -7,6 +7,7 @@
 #include <QScrollArea>
 #include <QImageReader>
 #include <QMessageBox>
+#include <QCheckBox>
 
 #include "imageviewer.h"
 
@@ -58,6 +59,7 @@ private:
 
     QLabel *imageLabel;
     QScrollArea *scrollArea;
+    QCheckBox *checkBoxChecked;
 
 };
 

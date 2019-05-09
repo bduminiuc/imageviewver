@@ -8,7 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     mCurrentImage(nullptr),
     imageLabel(new QLabel),
-    scrollArea(new QScrollArea)
+    scrollArea(new QScrollArea),
+    checkBoxChecked(new QCheckBox)
 {
     ui->setupUi(this);
     initInterface();
@@ -66,7 +67,7 @@ void MainWindow::zoomOut()
 
 void MainWindow::check()
 {
-    ui->statusBar->showMessage("Check action");
+    mCurrentImage->setChecked(ui->action_mark->isChecked());
 }
 
 void MainWindow::move()
@@ -141,22 +142,31 @@ void MainWindow::setImage(Image *image)
 
     QImage currentImage(reader.read());
 
-    if (currentImage.isNull())
+    if (currentImage.isNull()) {
         return;
+    }
 
     // init pixmap to add in label
     QSize currentSize = getCurrentSize(); //ui->centralWidget->size();
     QPixmap pixmap = QPixmap::fromImage(currentImage);
 
+
     // scale pixmap if image is wider or higher than the window
-    if (currentImage.width() > currentSize.width() || currentImage.height() > currentSize.height())
+    bool needScaleWidth  = currentImage.width() > currentSize.width();
+    bool needScaleHeight = currentImage.height() > currentSize.height();
+
+    if (needScaleWidth || needScaleHeight) {
         imageLabel->setPixmap(pixmap.scaled(currentSize, Qt::KeepAspectRatio));
-    else
+    }
+    else {
         imageLabel->setPixmap(pixmap);
+    }
 
 
     imageLabel->adjustSize();
     imageLabel->setVisible(true);
+
+    ui->action_mark->setChecked(image->isChecked());
 
     mCurrentImage = image;
 
