@@ -23,7 +23,7 @@ MainWindow::~MainWindow()
 void MainWindow::open()
 {
     // open directory path
-    QString directoryPath = QFileDialog::getExistingDirectory(nullptr, "Directory Dialog", "");
+    QString directoryPath = QFileDialog::getExistingDirectory(this, "Directory Dialog", "");
 
     if (directoryPath.isEmpty())
         // if user press CANCEL in FileDialog
@@ -67,21 +67,40 @@ void MainWindow::zoomOut()
 
 void MainWindow::check()
 {
-    mCurrentImage->setChecked(ui->action_mark->isChecked());
+    if (mCurrentImage) {
+        mCurrentImage->setChecked(ui->action_mark->isChecked());
+    }
 }
 
 void MainWindow::move()
 {
+    QString directoryPath = QFileDialog::getExistingDirectory(this, "Directory Dialog", "");
+
+    if (directoryPath.isEmpty())
+        // if user press CANCEL in FileDialog
+        return;
+
+    mImageViewer.moveChecked(directoryPath);
+
     ui->statusBar->showMessage("Move action");
 }
 
 void MainWindow::copy()
 {
+    QString directoryPath = QFileDialog::getExistingDirectory(this, "Directory Dialog", "");
+
+    if (directoryPath.isEmpty())
+        // if user press CANCEL in FileDialog
+        return;
+
+    mImageViewer.copyChecked(directoryPath);
+
     ui->statusBar->showMessage("Copy action");
 }
 
 void MainWindow::remove()
 {
+    mImageViewer.removeChecked();
     ui->statusBar->showMessage("Remove action");
 }
 
@@ -136,6 +155,10 @@ void MainWindow::initInterface()
 
 void MainWindow::setImage(Image *image)
 {
+    if (!image) {
+        return;
+    }
+
     // reading of current image
     QImageReader reader(image->getPath());
     reader.setAutoTransform(true);

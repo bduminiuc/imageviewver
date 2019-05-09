@@ -14,6 +14,10 @@ public:
     bool openDirectory(const QString & path);
     void closeDirectory();
 
+    void copyChecked(const QString &dir);
+    void moveChecked(const QString &dir);
+    void removeChecked();
+
     Image* next();
     Image* prev();
 
