@@ -1,3 +1,5 @@
+#include <QDirIterator>
+
 #include "imageviewer.h"
 
 ImageViewer::ImageViewer()
