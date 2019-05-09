@@ -28,7 +28,7 @@ void ImageViewer::closeDirectory()
     mImageList.clear();
 }
 
-QString ImageViewer::next()
+Image* ImageViewer::next()
 {
     if (mCurrentIterator == mImageList.end() - 1) {
         mCurrentIterator = mImageList.begin();
@@ -37,10 +37,10 @@ QString ImageViewer::next()
         mCurrentIterator++;
     }
 
-    return (*mCurrentIterator)->getPath();
+    return *mCurrentIterator;
 }
 
-QString ImageViewer::prev()
+Image* ImageViewer::prev()
 {
     if (mCurrentIterator == mImageList.begin()) {
         mCurrentIterator = mImageList.end() - 1;
@@ -49,7 +49,7 @@ QString ImageViewer::prev()
         mCurrentIterator--;
     }
 
-    return (*mCurrentIterator)->getPath();
+    return *mCurrentIterator;
 }
 
 Image* ImageViewer::getCurrentImage()

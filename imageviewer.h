@@ -14,8 +14,8 @@ public:
     bool openDirectory(const QString & path);
     void closeDirectory();
 
-    QString next();
-    QString prev();
+    Image* next();
+    Image* prev();
 
     Image* getCurrentImage();
     int getCurrentIndex();
