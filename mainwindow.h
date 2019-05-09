@@ -44,15 +44,15 @@ private slots:
 
 private:
     void initInterface();
-    void setImage(const QString &);
+    void setImage(Image*);
     void switchImage(bool direction);
     QSize getCurrentSize();
     void setViewStatusBarMsg(int current, int total);
 
     Ui::MainWindow *ui;
 
-    ImageViewer imgViewer;
-    QString currentImagePath;
+    ImageViewer mImageViewer;
+    Image* mCurrentImage;
 
     QLabel *imageLabel;
     QScrollArea *scrollArea;
