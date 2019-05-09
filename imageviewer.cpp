@@ -9,64 +9,65 @@ ImageViewer::ImageViewer()
 
 bool ImageViewer::openDirectory(const QString &path)
 {
-    directory = path;
-    //directory = "E:/git-workspace/qt/";
+    QDirIterator it(path, formats, QDir::Files, QDirIterator::Subdirectories);
 
-    QDirIterator it(directory, formats, QDir::Files, QDirIterator::Subdirectories);
-    while (it.hasNext())
-        images.push_back(it.next().toUtf8().constData());
+    while (it.hasNext()){
+        mImageList.append(it.next());
+    }
 
-    return true;
+    if (hasImages()) {
+        mCurrentIterator = mImageList.begin();
+        return true;
+    }
+
+    return false;
 }
 
 void ImageViewer::closeDirectory()
 {
-    directory = "";
-    images.clear();
-    i = 0;
-}
-
-bool ImageViewer::isOpened()
-{
-    return ! directory.isEmpty();
+    mImageList.clear();
 }
 
 QString ImageViewer::next()
 {
-    if (i == images.size() - 1)
-        i = 0;
-    else
-        i++;
+    if (mCurrentIterator == mImageList.end() - 1) {
+        mCurrentIterator = mImageList.begin();
+    }
+    else {
+        mCurrentIterator++;
+    }
 
-    return images[i];
+    return (*mCurrentIterator)->getPath();
 }
 
 QString ImageViewer::prev()
 {
-    if (i == 0)
-        i = images.size() - 1;
-    else
-        i--;
+    if (mCurrentIterator == mImageList.begin()) {
+        mCurrentIterator = mImageList.end() - 1;
+    }
+    else {
+        mCurrentIterator--;
+    }
 
-    return images[i];
+    return (*mCurrentIterator)->getPath();
 }
 
-QString ImageViewer::current()
+Image* ImageViewer::getCurrentImage()
 {
-    return images[i];
+    return *mCurrentIterator;
 }
 
 bool ImageViewer::hasImages()
 {
-    return ! images.empty();
+    return ! mImageList.isEmpty();
 }
 
-int ImageViewer::count()
+int ImageViewer::imagesCount()
 {
-    return images.size();
+    return mImageList.size();
 }
 
-int ImageViewer::currentIdx()
+int ImageViewer::getCurrentIndex()
 {
-    return i + 1;
+    return mCurrentIterator - mImageList.begin() + 1;
 }

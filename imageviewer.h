@@ -3,6 +3,8 @@
 
 #include <QStringList>
 
+#include "imagelist.h"
+
 using namespace std;
 
 class ImageViewer
@@ -11,18 +13,17 @@ public:
     ImageViewer();
     bool openDirectory(const QString & path);
     void closeDirectory();
-    bool isOpened();
 
     QString next();
     QString prev();
-    QString current();
+
+    Image* getCurrentImage();
+    int getCurrentIndex();
 
     bool hasImages();
-    int count();
-    int currentIdx();
+    int imagesCount();
 
 private:
-    QString directory;
     QStringList formats {
         "*.jpg",
         "*.png",
@@ -30,9 +31,9 @@ private:
         "*.ico",
     };
 
-    QStringList images;
+    ImageList mImageList;
 
-    int i = 0;
+    ImageList::iterator mCurrentIterator;
 };
 
 #endif // IMAGEVIEWER_H
