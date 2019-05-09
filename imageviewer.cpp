@@ -50,7 +50,7 @@ void ImageViewer::copyChecked(const QString &dir)
 
 void ImageViewer::moveChecked(const QString &dir)
 {
-    for (auto iter = mImageList.begin(); iter != mImageList.end(); iter++) {
+    for (auto iter = mImageList.begin(); iter != mImageList.end(); /*iter++*/) {
         Image *image = *iter;
 
         if (image->isChecked()) {
@@ -60,7 +60,10 @@ void ImageViewer::moveChecked(const QString &dir)
             QString newPath = dir + QDir::separator() + fileinfo.fileName();
 
             QFile::rename(imagePath, newPath);
-            mImageList.erase(iter);
+            iter - mImageList.erase(iter);
+        }
+        else {
+            iter++;
         }
     }
 }
