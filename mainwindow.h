@@ -7,6 +7,7 @@
 #include <QScrollArea>
 #include <QImageReader>
 #include <QMessageBox>
+#include <QCheckBox>
 
 #include "imageviewer.h"
 
@@ -17,6 +18,8 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
+    enum SwitchDirection {SWITCH_LEFT, SWITCH_RIGHT};
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
@@ -44,18 +47,19 @@ private slots:
 
 private:
     void initInterface();
-    void setImage(const QString &);
-    void switchImage(bool direction);
+    void setImage(Image*);
+    void switchImage(SwitchDirection direction);
     QSize getCurrentSize();
     void setViewStatusBarMsg(int current, int total);
 
     Ui::MainWindow *ui;
 
-    ImageViewer imgViewer;
-    QString currentImagePath;
+    ImageViewer mImageViewer;
+    Image* mCurrentImage;
 
     QLabel *imageLabel;
     QScrollArea *scrollArea;
+    QCheckBox *checkBoxChecked;
 
 };
 

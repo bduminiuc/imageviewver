@@ -106,9 +106,16 @@
    <addaction name="separator"/>
    <addaction name="action_zoom_in"/>
    <addaction name="action_zoom_out"/>
+   <addaction name="action_mark"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_open">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/images/images/Open_24x24.png</normaloff>:/images/images/Open_24x24.png</iconset>
@@ -147,8 +154,14 @@
    </property>
   </action>
   <action name="action_mark">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Отметить</string>
+    <string>Отмечено</string>
+   </property>
+   <property name="toolTip">
+    <string>Отмечено</string>
    </property>
    <property name="shortcut">
     <string>Space</string>

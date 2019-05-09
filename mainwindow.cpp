@@ -1,11 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    mCurrentImage(nullptr),
     imageLabel(new QLabel),
-    scrollArea(new QScrollArea)
+    scrollArea(new QScrollArea),
+    checkBoxChecked(new QCheckBox)
 {
     ui->setupUi(this);
     initInterface();
@@ -26,11 +30,11 @@ void MainWindow::open()
         return;
 
     close_all();
-    imgViewer.openDirectory(directoryPath);
+    mImageViewer.openDirectory(directoryPath);
 
-    if (imgViewer.hasImages()) {
-        setImage(imgViewer.current());
-        setViewStatusBarMsg(imgViewer.currentIdx(), imgViewer.count());
+    if (mImageViewer.hasImages()) {
+        setImage(mImageViewer.getCurrentImage());
+        setViewStatusBarMsg(mImageViewer.getCurrentIndex(), mImageViewer.imagesCount());
     }
     else {
         QMessageBox::critical(this, "Ошибка", "В выбранной папке нет изображений! Откройте папку с изображениями.");
@@ -40,17 +44,15 @@ void MainWindow::open()
 
 void MainWindow::close_all()
 {
-    if (imgViewer.isOpened()) {
-        imgViewer.closeDirectory();
+    mImageViewer.closeDirectory();
 
-        imageLabel->clear();
-        imageLabel->adjustSize();
-        imageLabel->setVisible(false);
+    imageLabel->clear();
+    imageLabel->adjustSize();
+    imageLabel->setVisible(false);
 
-        currentImagePath.clear();
+    mCurrentImage = nullptr;
 
-        QWidget::setWindowTitle("ImageViewer");
-    }
+    setWindowTitle("ImageViewer");
 }
 
 void MainWindow::zoomIn()
@@ -65,7 +67,7 @@ void MainWindow::zoomOut()
 
 void MainWindow::check()
 {
-    ui->statusBar->showMessage("Check action");
+    mCurrentImage->setChecked(ui->action_mark->isChecked());
 }
 
 void MainWindow::move()
@@ -95,12 +97,12 @@ void MainWindow::clearRecentList()
 
 void MainWindow::next()
 {
-    switchImage(true);
+    switchImage(SWITCH_RIGHT);
 }
 
 void MainWindow::prev()
 {
-    switchImage(false);
+    switchImage(SWITCH_LEFT);
 }
 
 void MainWindow::initInterface()
@@ -132,61 +134,80 @@ void MainWindow::initInterface()
     connect(ui->action_prev, &QAction::triggered, this, &MainWindow::prev);
 }
 
-void MainWindow::setImage(const QString & path)
+void MainWindow::setImage(Image *image)
 {
     // reading of current image
-    QImageReader reader(path);
+    QImageReader reader(image->getPath());
     reader.setAutoTransform(true);
 
     QImage currentImage(reader.read());
 
-    if (currentImage.isNull())
+    if (currentImage.isNull()) {
         return;
-
+    }
 
     // init pixmap to add in label
-    QSize currentSize = getCurrentSize();
+    QSize currentSize = getCurrentSize(); //ui->centralWidget->size();
     QPixmap pixmap = QPixmap::fromImage(currentImage);
 
+
     // scale pixmap if image is wider or higher than the window
-    if (currentImage.width() > currentSize.width() || currentImage.height() > currentSize.height())
+    bool needScaleWidth  = currentImage.width() > currentSize.width();
+    bool needScaleHeight = currentImage.height() > currentSize.height();
+
+    if (needScaleWidth || needScaleHeight) {
         imageLabel->setPixmap(pixmap.scaled(currentSize, Qt::KeepAspectRatio));
-    else
+    }
+    else {
         imageLabel->setPixmap(pixmap);
+    }
 
 
     imageLabel->adjustSize();
     imageLabel->setVisible(true);
 
-    currentImagePath = path;
+    ui->action_mark->setChecked(image->isChecked());
 
-    QWidget::setWindowTitle(path + " - ImageViewer");
+    mCurrentImage = image;
+
+    setWindowTitle(image->getPath() + " - ImageViewer");
 }
 
-// direction means next action or prev
-void MainWindow::switchImage(bool direction)
+void MainWindow::switchImage(SwitchDirection direction)
 {
-    if (imgViewer.hasImages()){
-        setImage(direction ? imgViewer.next() : imgViewer.prev());
-        setViewStatusBarMsg(imgViewer.currentIdx(), imgViewer.count());
+    if (!mImageViewer.hasImages()){
+        return;
     }
+
+    switch(direction)
+    {
+        case SWITCH_LEFT:
+            mImageViewer.prev();
+            break;
+
+        case SWITCH_RIGHT:
+            mImageViewer.next();
+            break;
+    }
+
+    setImage(mImageViewer.getCurrentImage());
+    setViewStatusBarMsg(mImageViewer.getCurrentIndex(), mImageViewer.imagesCount());
 }
 
 QSize MainWindow::getCurrentSize()
 {
-    return QSize(QWidget::width() - 10,
-                 QWidget::height() - ui->mainToolBar->height() - 2*ui->statusBar->height() - ui->menuBar->height());
+    return QSize(scrollArea->width() - 10, scrollArea->height() - 10);
 }
 
 void MainWindow::setViewStatusBarMsg(int current, int total)
 {
-    ui->statusBar->showMessage(QString::number(current) +
-                               " из " +
-                               QString::number(total));
+    QString message = QString::number(current) + " из " + QString::number(total);
+    ui->statusBar->showMessage(message);
 }
 
-void MainWindow::resizeEvent(QResizeEvent* event)
+void MainWindow::resizeEvent(QResizeEvent*)
 {
-    if (!currentImagePath.isEmpty())
-        setImage(currentImagePath);
+    if (mCurrentImage) {
+        setImage(mCurrentImage);
+    }
 }
