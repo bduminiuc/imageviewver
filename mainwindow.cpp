@@ -96,12 +96,12 @@ void MainWindow::clearRecentList()
 
 void MainWindow::next()
 {
-    switchImage(true);
+    switchImage(SWITCH_RIGHT);
 }
 
 void MainWindow::prev()
 {
-    switchImage(false);
+    switchImage(SWITCH_LEFT);
 }
 
 void MainWindow::initInterface()
@@ -163,13 +163,25 @@ void MainWindow::setImage(Image *image)
     setWindowTitle(image->getPath() + " - ImageViewer");
 }
 
-// direction means next action or prev
-void MainWindow::switchImage(bool direction)
+void MainWindow::switchImage(SwitchDirection direction)
 {
-    if (mImageViewer.hasImages()){
-        setImage(direction ? mImageViewer.next() : mImageViewer.prev());
-        setViewStatusBarMsg(mImageViewer.getCurrentIndex(), mImageViewer.imagesCount());
+    if (!mImageViewer.hasImages()){
+        return;
     }
+
+    switch(direction)
+    {
+        case SWITCH_LEFT:
+            mImageViewer.prev();
+            break;
+
+        case SWITCH_RIGHT:
+            mImageViewer.next();
+            break;
+    }
+
+    setImage(mImageViewer.getCurrentImage());
+    setViewStatusBarMsg(mImageViewer.getCurrentIndex(), mImageViewer.imagesCount());
 }
 
 QSize MainWindow::getCurrentSize()
@@ -179,9 +191,8 @@ QSize MainWindow::getCurrentSize()
 
 void MainWindow::setViewStatusBarMsg(int current, int total)
 {
-    ui->statusBar->showMessage(QString::number(current) +
-                               " из " +
-                               QString::number(total));
+    QString message = QString::number(current) + " из " + QString::number(total);
+    ui->statusBar->showMessage(message);
 }
 
 void MainWindow::resizeEvent(QResizeEvent*)

@@ -18,6 +18,8 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    enum SwitchDirection {SWITCH_LEFT, SWITCH_RIGHT};
+
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -45,7 +47,7 @@ private slots:
 private:
     void initInterface();
     void setImage(Image*);
-    void switchImage(bool direction);
+    void switchImage(SwitchDirection direction);
     QSize getCurrentSize();
     void setViewStatusBarMsg(int current, int total);
 
