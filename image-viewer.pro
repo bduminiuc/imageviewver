@@ -23,11 +23,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    image.cpp \
         main.cpp \
         mainwindow.cpp \
     imageviewer.cpp
 
 HEADERS += \
+    image.h \
         mainwindow.h \
     imageviewer.h
 
