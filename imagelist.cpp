@@ -17,6 +17,10 @@ void ImageList::append(const QString &imagePath)
 
 void ImageList::clear()
 {
+    if (mImages.isEmpty()) {
+        return;
+    }
+
     for (auto image : mImages) {
         delete image;
     }
