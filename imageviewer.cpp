@@ -60,7 +60,7 @@ void ImageViewer::moveChecked(const QString &dir)
             QString newPath = dir + QDir::separator() + fileinfo.fileName();
 
             QFile::rename(imagePath, newPath);
-            iter - mImageList.erase(iter);
+            iter = mImageList.erase(iter);
         }
         else {
             iter++;
