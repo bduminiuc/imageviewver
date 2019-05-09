@@ -16,6 +16,7 @@ public:
     ~ImageList();
 
     void append(const QString &imagePath);
+    iterator erase(iterator iter);
 
     void clear();
 

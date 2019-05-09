@@ -15,6 +15,14 @@ void ImageList::append(const QString &imagePath)
     mImages.append(new Image(imagePath));
 }
 
+ImageList::iterator ImageList::erase(ImageList::iterator iter)
+{
+    Image *image = *iter;
+    delete image;
+
+    return mImages.erase(iter);
+}
+
 void ImageList::clear()
 {
     if (mImages.isEmpty()) {

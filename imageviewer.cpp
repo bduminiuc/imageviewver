@@ -60,17 +60,22 @@ void ImageViewer::moveChecked(const QString &dir)
             QString newPath = dir + QDir::separator() + fileinfo.fileName();
 
             QFile::rename(imagePath, newPath);
+            mImageList.erase(iter);
         }
     }
 }
 
 void ImageViewer::removeChecked()
 {
-    for (auto iter = mImageList.begin(); iter != mImageList.end(); iter++) {
+    for (auto iter = mImageList.begin(); iter != mImageList.end(); /*iter++*/) {
         Image *image = *iter;
 
         if (image->isChecked()) {
             QFile::remove(image->getPath());
+            iter = mImageList.erase(iter);
+        }
+        else {
+            iter++;
         }
     }
 }
