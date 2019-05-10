@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 
 #include <QDebug>
+#include <QProgressDialog>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -94,6 +96,11 @@ void MainWindow::copy()
     if (directoryPath.isEmpty())
         // if user press CANCEL in FileDialog
         return;
+
+    QProgressDialog progressDialog(this);
+    progressDialog.setWindowTitle("Копирование");
+    progressDialog.setLabelText("Копирование элементов");
+    progressDialog.exec();
 
     mImageViewer.copyChecked(directoryPath);
 
@@ -244,7 +251,15 @@ void MainWindow::update()
         setViewStatusBarMsg(mImageViewer.getCurrentIndex(), mImageViewer.imagesCount());
     }
     else {
-        QMessageBox::critical(this, "Ошибка", "В выбранной папке нет изображений! Откройте папку с изображениями.");
+        QMessageBox::critical(this, "Ошибка",
+                              "В выбранной папке нет изображений! Откройте папку с изображениями.");
         open();
     }
+}
+
+void MainWindow::on_action_check_all_triggered()
+{
+    bool checked = ui->action_check_all->isChecked();
+    mImageViewer.setCheckedAll(checked);
+    ui->action_mark->setChecked(checked);
 }

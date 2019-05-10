@@ -30,6 +30,8 @@ public:
     bool hasImages();
     int imagesCount();
 
+    void setCheckedAll(bool checked);
+
 signals:
     void updated();
 

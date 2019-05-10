@@ -88,15 +88,20 @@ int ImageViewer::imagesCount()
     return mImageList.size();
 }
 
+void ImageViewer::setCheckedAll(bool checked)
+{
+    for (auto iter = mImageList.begin(); iter != mImageList.end(); iter++) {
+        (*iter)->setChecked(checked);
+    }
+}
+
 void ImageViewer::scanFinished(const ImageList &files)
 {
-    if (files.isEmpty()) {
-        return;
-    }
-
     mImageList = files;
 
-    mCurrentIterator = mImageList.begin();
+    if (! files.isEmpty()) {
+        mCurrentIterator = mImageList.begin();
+    }
 
     emit updated();
 }
@@ -105,7 +110,7 @@ QStringList ImageViewer::getCheckedImages()
 {
     QStringList checkedImages;
 
-    for (auto iter = mImageList.begin(); iter != mImageList.end();) {
+    for (auto iter = mImageList.begin(); iter != mImageList.end(); iter++) {
         Image *image = *iter;
 
         if (image->isChecked()) {

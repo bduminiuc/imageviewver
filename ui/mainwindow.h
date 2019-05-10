@@ -47,6 +47,8 @@ private slots:
 
     void update();
 
+    void on_action_check_all_triggered();
+
 private:
     void initInterface();
     void setImage(Image*);
@@ -62,7 +64,6 @@ private:
     QLabel *imageLabel;
     QScrollArea *scrollArea;
     QCheckBox *checkBoxChecked;
-
 };
 
 #endif // MAINWINDOW_H
