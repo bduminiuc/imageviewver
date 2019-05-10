@@ -45,6 +45,8 @@ private slots:
 
     void resizeEvent (QResizeEvent * event);
 
+    void update();
+
 private:
     void initInterface();
     void setImage(Image*);

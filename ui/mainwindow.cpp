@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     initInterface();
+
+    connect(&mImageViewer, &ImageViewer::updated, this, &MainWindow::update);
 }
 
 MainWindow::~MainWindow()
@@ -32,14 +34,14 @@ void MainWindow::open()
     close_all();
     mImageViewer.openDirectory(directoryPath);
 
-    if (mImageViewer.hasImages()) {
+    /*if (mImageViewer.hasImages()) {
         setImage(mImageViewer.getCurrentImage());
         setViewStatusBarMsg(mImageViewer.getCurrentIndex(), mImageViewer.imagesCount());
     }
     else {
         QMessageBox::critical(this, "Ошибка", "В выбранной папке нет изображений! Откройте папку с изображениями.");
         open();
-    }
+    }*/
 }
 
 void MainWindow::close_all()
@@ -232,5 +234,17 @@ void MainWindow::resizeEvent(QResizeEvent*)
 {
     if (mCurrentImage) {
         setImage(mCurrentImage);
+    }
+}
+
+void MainWindow::update()
+{
+    if (mImageViewer.hasImages()) {
+        setImage(mImageViewer.getCurrentImage());
+        setViewStatusBarMsg(mImageViewer.getCurrentIndex(), mImageViewer.imagesCount());
+    }
+    else {
+        QMessageBox::critical(this, "Ошибка", "В выбранной папке нет изображений! Откройте папку с изображениями.");
+        open();
     }
 }

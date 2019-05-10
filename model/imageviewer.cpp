@@ -5,18 +5,16 @@
 
 #include "imageviewer.h"
 
-ImageViewer::ImageViewer()
+ImageViewer::ImageViewer(QObject *parent) :
+    QObject (parent)
 {
-
+    connect(&filesystem, &FileSystemManager::scanFinished,
+            this, &ImageViewer::scanFinished);
 }
 
-bool ImageViewer::openDirectory(const QString &path)
+bool ImageViewer::openDirectory(const QString &dir)
 {
-    QDirIterator it(path, formats, QDir::Files, QDirIterator::Subdirectories);
-
-    while (it.hasNext()){
-        mImageList.append(it.next());
-    }
+    filesystem.scanDirectory(dir);
 
     if (hasImages()) {
         mCurrentIterator = mImageList.begin();
@@ -33,7 +31,7 @@ void ImageViewer::closeDirectory()
 
 void ImageViewer::copyChecked(const QString &dir)
 {
-    for (auto iter = mImageList.begin(); iter != mImageList.end(); iter++) {
+    /*for (auto iter = mImageList.begin(); iter != mImageList.end(); iter++) {
         Image *image = *iter;
 
         if (image->isChecked()) {
@@ -45,12 +43,12 @@ void ImageViewer::copyChecked(const QString &dir)
 
             QFile::copy(imagePath, newPath);
         }
-    }
+    }*/
 }
 
 void ImageViewer::moveChecked(const QString &dir)
 {
-    for (auto iter = mImageList.begin(); iter != mImageList.end(); /*iter++*/) {
+    /*for (auto iter = mImageList.begin(); iter != mImageList.end();) {
         Image *image = *iter;
 
         if (image->isChecked()) {
@@ -65,12 +63,12 @@ void ImageViewer::moveChecked(const QString &dir)
         else {
             iter++;
         }
-    }
+    }*/
 }
 
 void ImageViewer::removeChecked()
 {
-    for (auto iter = mImageList.begin(); iter != mImageList.end(); /*iter++*/) {
+    /*for (auto iter = mImageList.begin(); iter != mImageList.end(); ) {
         Image *image = *iter;
 
         if (image->isChecked()) {
@@ -80,7 +78,7 @@ void ImageViewer::removeChecked()
         else {
             iter++;
         }
-    }
+    }*/
 }
 
 Image* ImageViewer::next()
@@ -120,6 +118,21 @@ bool ImageViewer::hasImages()
 int ImageViewer::imagesCount()
 {
     return mImageList.size();
+}
+
+void ImageViewer::scanFinished(const ImageList &files)
+{
+    if (files.isEmpty()) {
+        return;
+    }
+
+
+    mImageList = files;
+
+
+    mCurrentIterator = mImageList.begin();
+
+    emit updated();
 }
 
 int ImageViewer::getCurrentIndex()

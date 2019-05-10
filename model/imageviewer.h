@@ -4,14 +4,17 @@
 #include <QStringList>
 
 #include "imagelist.h"
+#include "filesystemmanager.h"
 
 using namespace std;
 
-class ImageViewer
+class ImageViewer : public QObject
 {
+    Q_OBJECT
+
 public:
-    ImageViewer();
-    bool openDirectory(const QString & path);
+    ImageViewer(QObject *parent = nullptr);
+    bool openDirectory(const QString & dir);
     void closeDirectory();
 
     void copyChecked(const QString &dir);
@@ -27,6 +30,12 @@ public:
     bool hasImages();
     int imagesCount();
 
+signals:
+    void updated();
+
+public slots:
+    void scanFinished(const ImageList &files);
+
 private:
     QStringList formats {
         "*.jpg",
@@ -38,6 +47,7 @@ private:
     ImageList mImageList;
 
     ImageList::iterator mCurrentIterator;
+    FileSystemManager filesystem;
 };
 
 #endif // IMAGEVIEWER_H
