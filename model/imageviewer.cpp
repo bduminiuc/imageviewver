@@ -31,54 +31,22 @@ void ImageViewer::closeDirectory()
 
 void ImageViewer::copyChecked(const QString &dir)
 {
-    /*for (auto iter = mImageList.begin(); iter != mImageList.end(); iter++) {
-        Image *image = *iter;
-
-        if (image->isChecked()) {
-            QString imagePath = image->getPath();
-            QFileInfo fileinfo(imagePath);
-
-            QString filename = fileinfo.fileName();
-            QString newPath = dir + QDir::separator() + filename;
-
-            QFile::copy(imagePath, newPath);
-        }
-    }*/
+    QStringList checkedImages = getCheckedImages();
+    filesystem.copyFiles(checkedImages, dir);
 }
 
 void ImageViewer::moveChecked(const QString &dir)
 {
-    /*for (auto iter = mImageList.begin(); iter != mImageList.end();) {
-        Image *image = *iter;
-
-        if (image->isChecked()) {
-            QString imagePath = image->getPath();
-            QFileInfo fileinfo(imagePath);
-
-            QString newPath = dir + QDir::separator() + fileinfo.fileName();
-
-            QFile::rename(imagePath, newPath);
-            iter = mImageList.erase(iter);
-        }
-        else {
-            iter++;
-        }
-    }*/
+    QStringList checkedImages = getCheckedImages();
+    filesystem.moveFiles(checkedImages, dir);
+    eraseCheckedImages();
 }
 
 void ImageViewer::removeChecked()
 {
-    /*for (auto iter = mImageList.begin(); iter != mImageList.end(); ) {
-        Image *image = *iter;
-
-        if (image->isChecked()) {
-            QFile::remove(image->getPath());
-            iter = mImageList.erase(iter);
-        }
-        else {
-            iter++;
-        }
-    }*/
+    QStringList checkedImages = getCheckedImages();
+    filesystem.removeFiles(checkedImages);
+    eraseCheckedImages();
 }
 
 Image* ImageViewer::next()
@@ -126,13 +94,40 @@ void ImageViewer::scanFinished(const ImageList &files)
         return;
     }
 
-
     mImageList = files;
-
 
     mCurrentIterator = mImageList.begin();
 
     emit updated();
+}
+
+QStringList ImageViewer::getCheckedImages()
+{
+    QStringList checkedImages;
+
+    for (auto iter = mImageList.begin(); iter != mImageList.end();) {
+        Image *image = *iter;
+
+        if (image->isChecked()) {
+            checkedImages.append(image->getPath());
+        }
+    }
+
+    return checkedImages;
+}
+
+void ImageViewer::eraseCheckedImages()
+{
+    for (auto iter = mImageList.begin(); iter != mImageList.end(); ) {
+        Image *image = *iter;
+
+        if (image->isChecked()) {
+            iter = mImageList.erase(iter);
+        }
+        else {
+            iter++;
+        }
+    }
 }
 
 int ImageViewer::getCurrentIndex()

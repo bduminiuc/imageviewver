@@ -37,12 +37,8 @@ public slots:
     void scanFinished(const ImageList &files);
 
 private:
-    QStringList formats {
-        "*.jpg",
-        "*.png",
-        "*.bmp",
-        "*.ico",
-    };
+    QStringList getCheckedImages();
+    void eraseCheckedImages();
 
     ImageList mImageList;
 
