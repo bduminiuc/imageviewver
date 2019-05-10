@@ -67,7 +67,6 @@
     <addaction name="action_move"/>
     <addaction name="action_copy"/>
     <addaction name="action_remove"/>
-    <addaction name="action_check_all"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -266,20 +265,6 @@
    </property>
    <property name="text">
     <string>Растянуть</string>
-   </property>
-  </action>
-  <action name="action_check_all">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Выбрать все</string>
-   </property>
-   <property name="toolTip">
-    <string>Выбрать все</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+A</string>
    </property>
   </action>
  </widget>

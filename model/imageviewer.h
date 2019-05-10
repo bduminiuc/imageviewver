@@ -31,8 +31,6 @@ public:
     bool hasImages();
     int imagesCount();
 
-    void setCheckedAll(bool checked);
-
     QFutureWatcher<void> *getWatcher();
 
 signals:

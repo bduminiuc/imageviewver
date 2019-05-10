@@ -93,13 +93,6 @@ int ImageViewer::imagesCount()
     return mImageList.size();
 }
 
-void ImageViewer::setCheckedAll(bool checked)
-{
-    for (auto iter = mImageList.begin(); iter != mImageList.end(); iter++) {
-        (*iter)->setChecked(checked);
-    }
-}
-
 QFutureWatcher<void> *ImageViewer::getWatcher()
 {
     return &watcher;

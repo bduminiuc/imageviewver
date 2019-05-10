@@ -9,7 +9,6 @@
 #include <QMessageBox>
 #include <QCheckBox>
 
-
 #include "model/imageviewer.h"
 #include "loadingdialog.h"
 
@@ -48,8 +47,6 @@ private slots:
     void resizeEvent (QResizeEvent * event);
 
     void update();
-
-    void on_action_check_all_triggered();
 
 private:
     void initInterface();

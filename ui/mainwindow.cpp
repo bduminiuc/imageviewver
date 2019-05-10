@@ -61,8 +61,6 @@ void MainWindow::close_all()
 
     mCurrentImage = nullptr;
 
-    ui->action_check_all->setChecked(false);
-
     setWindowTitle("ImageViewer");
 }
 
@@ -267,11 +265,4 @@ void MainWindow::update()
                               "В выбранной папке нет изображений! Откройте папку с изображениями.");
         open();
     }
-}
-
-void MainWindow::on_action_check_all_triggered()
-{
-    bool checked = ui->action_check_all->isChecked();
-    mImageViewer.setCheckedAll(checked);
-    ui->action_mark->setChecked(checked);
 }
