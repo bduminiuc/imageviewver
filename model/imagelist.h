@@ -19,6 +19,7 @@ public:
 
     void append(const QString &imagePath);
     void append(const Image &image);
+    void append(Image *image);
     iterator erase(iterator iter);
 
     void clear();
