@@ -125,6 +125,7 @@ void MainWindow::remove()
 
 void MainWindow::about()
 {
+    QMessageBox::information(this, "О программе", "Кто маладец? bogdanduminyuk маладец!");
     ui->statusBar->showMessage("About action");
 }
 
