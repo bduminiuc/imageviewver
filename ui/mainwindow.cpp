@@ -245,13 +245,13 @@ void MainWindow::update()
 void MainWindow::on_action_fit_to_screen_triggered()
 {
     QSize currentSize(scrollArea->width() - 10, scrollArea->height() - 10);
-    QPixmap pixmap(*imageLabel->pixmap());
+    const QPixmap *currentPixmap = imageLabel->pixmap();
 
-    bool needScaleWidth  = pixmap.width() > currentSize.width();
-    bool needScaleHeight = pixmap.height() > currentSize.height();
+    bool needScaleWidth  = currentPixmap->width()  > currentSize.width();
+    bool needScaleHeight = currentPixmap->height() > currentSize.height();
 
     if (needScaleWidth || needScaleHeight) {
-        imageLabel->setPixmap(pixmap.scaled(currentSize, Qt::KeepAspectRatio));
+        imageLabel->setPixmap(currentPixmap->scaled(currentSize, Qt::KeepAspectRatio));
         imageLabel->adjustSize();
     }
 }
