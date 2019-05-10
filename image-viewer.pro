@@ -23,6 +23,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    model/filesystemmanager.cpp \
     model/image.cpp \
     model/imagelist.cpp \
     model/imageviewer.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
+    model/filesystemmanager.h \
     model/image.h \
     model/imagelist.h \
     model/imageviewer.h \
