@@ -23,20 +23,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-    image.cpp \
-    imagelist.cpp \
-        main.cpp \
-        mainwindow.cpp \
-    imageviewer.cpp
+    model/image.cpp \
+    model/imagelist.cpp \
+    model/imageviewer.cpp \
+    ui/loadingdialog.cpp \
+    ui/mainwindow.cpp \
+    main.cpp
 
 HEADERS += \
-    image.h \
-    imagelist.h \
-        mainwindow.h \
-    imageviewer.h
+    model/image.h \
+    model/imagelist.h \
+    model/imageviewer.h \
+    ui/loadingdialog.h \
+    ui/mainwindow.h
 
 FORMS += \
-        mainwindow.ui
+    ui/loadingdialog.ui \
+    ui/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

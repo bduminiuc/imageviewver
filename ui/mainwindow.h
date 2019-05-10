@@ -9,7 +9,7 @@
 #include <QMessageBox>
 #include <QCheckBox>
 
-#include "imageviewer.h"
+#include "model/imageviewer.h"
 
 namespace Ui {
 class MainWindow;
