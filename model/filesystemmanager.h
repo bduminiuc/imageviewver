@@ -13,6 +13,8 @@ public:
 
     void setScanFormats(const QStringList &formats);
 
+    void copy(const QString &srcFile, const QString &dstDir);
+
     void copyFiles(const QStringList &srcFiles, const QString &dstDir);
     void moveFiles(const QStringList &srcFiles, const QString &dstDir);
     void removeFiles(const QStringList &files);

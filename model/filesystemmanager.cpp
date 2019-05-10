@@ -16,26 +16,41 @@ void FileSystemManager::setScanFormats(const QStringList &formats)
     mFormats = formats;
 }
 
+void FileSystemManager::copy(const QString &srcFile, const QString &dstDir)
+{
+    QString newPath = getNewFilePath(srcFile, dstDir);
+    QFile::copy(srcFile, newPath);
+}
+
+void FileSystemManager::move(const QString &srcFile, const QString &dstDir)
+{
+    QString newPath = getNewFilePath(srcFile, dstDir);
+    QFile::rename(srcFile, newPath);
+}
+
+void FileSystemManager::remove(const QString &file)
+{
+    QFile::remove(file);
+}
+
 void FileSystemManager::copyFiles(const QStringList &srcFiles, const QString &dstDir)
 {
     for(auto oldPath: srcFiles) {
-        QString newPath = getNewFilePath(oldPath, dstDir);
-        QFile::copy(oldPath, newPath);
+        copy(oldPath, dstDir);
     }
 }
 
 void FileSystemManager::moveFiles(const QStringList &srcFiles, const QString &dstDir)
 {
     for(auto oldPath: srcFiles) {
-        QString newPath = getNewFilePath(oldPath, dstDir);
-        QFile::rename(oldPath, newPath);
+        move(oldPath, dstDir);
     }
 }
 
 void FileSystemManager::removeFiles(const QStringList &files)
 {
     for(auto path: files) {
-        QFile::remove(path);
+        remove(path);
     }
 }
 
