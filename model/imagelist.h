@@ -13,9 +13,12 @@ public:
 
 
     ImageList();
+    ImageList(const ImageList &obj);
     ~ImageList();
 
+
     void append(const QString &imagePath);
+    void append(const Image &image);
     iterator erase(iterator iter);
 
     void clear();
@@ -26,6 +29,8 @@ public:
 
     iterator begin();
     iterator end();
+
+    ImageList& operator=(const ImageList& right);
 
 private:
     QList<Image*> mImages;
