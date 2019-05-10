@@ -128,11 +128,6 @@ void MainWindow::about()
     ui->statusBar->showMessage("About action");
 }
 
-void MainWindow::clearRecentList()
-{
-    ui->statusBar->showMessage("Clear recent list action");
-}
-
 void MainWindow::next()
 {
     switchImage(SWITCH_RIGHT);
@@ -167,7 +162,6 @@ void MainWindow::initInterface()
     connect(ui->action_copy, &QAction::triggered, this, &MainWindow::copy);
     connect(ui->action_remove, &QAction::triggered, this, &MainWindow::remove);
     connect(ui->action_about, &QAction::triggered, this, &MainWindow::about);
-    connect(ui->action_clear_recent_list, &QAction::triggered, this, &MainWindow::clearRecentList);
     connect(ui->action_next, &QAction::triggered, this, &MainWindow::next);
     connect(ui->action_prev, &QAction::triggered, this, &MainWindow::prev);
 }
@@ -188,22 +182,8 @@ void MainWindow::setImage(Image *image)
         return;
     }
 
-    // init pixmap to add in label
-    QSize currentSize = getCurrentSize(); //ui->centralWidget->size();
-    QPixmap pixmap = QPixmap::fromImage(currentImage);
-
-
-    // scale pixmap if image is wider or higher than the window
-    bool needScaleWidth  = currentImage.width() > currentSize.width();
-    bool needScaleHeight = currentImage.height() > currentSize.height();
-
-    if (needScaleWidth || needScaleHeight) {
-        imageLabel->setPixmap(pixmap.scaled(currentSize, Qt::KeepAspectRatio));
-    }
-    else {
-        imageLabel->setPixmap(pixmap);
-    }
-
+    imageLabel->setPixmap(QPixmap::fromImage(currentImage));
+    on_action_fit_to_screen_triggered();
 
     imageLabel->adjustSize();
     imageLabel->setVisible(true);
@@ -236,11 +216,6 @@ void MainWindow::switchImage(SwitchDirection direction)
     setViewStatusBarMsg(mImageViewer.getCurrentIndex(), mImageViewer.imagesCount());
 }
 
-QSize MainWindow::getCurrentSize()
-{
-    return QSize(scrollArea->width() - 10, scrollArea->height() - 10);
-}
-
 void MainWindow::setViewStatusBarMsg(int current, int total)
 {
     QString message = QString::number(current) + " из " + QString::number(total);
@@ -264,5 +239,19 @@ void MainWindow::update()
         QMessageBox::critical(this, "Ошибка",
                               "В выбранной папке нет изображений! Откройте папку с изображениями.");
         open();
+    }
+}
+
+void MainWindow::on_action_fit_to_screen_triggered()
+{
+    QSize currentSize(scrollArea->width() - 10, scrollArea->height() - 10);
+    QPixmap pixmap(*imageLabel->pixmap());
+
+    bool needScaleWidth  = pixmap.width() > currentSize.width();
+    bool needScaleHeight = pixmap.height() > currentSize.height();
+
+    if (needScaleWidth || needScaleHeight) {
+        imageLabel->setPixmap(pixmap.scaled(currentSize, Qt::KeepAspectRatio));
+        imageLabel->adjustSize();
     }
 }

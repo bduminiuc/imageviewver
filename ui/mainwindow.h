@@ -39,7 +39,6 @@ private slots:
     void remove();
 
     void about();
-    void clearRecentList();
 
     void next();
     void prev();
@@ -48,11 +47,12 @@ private slots:
 
     void update();
 
+    void on_action_fit_to_screen_triggered();
+
 private:
     void initInterface();
     void setImage(Image*);
     void switchImage(SwitchDirection direction);
-    QSize getCurrentSize();
     void setViewStatusBarMsg(int current, int total);
 
     Ui::MainWindow *ui;

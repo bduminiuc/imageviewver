@@ -43,17 +43,8 @@
     <property name="title">
      <string>Папка</string>
     </property>
-    <widget class="QMenu" name="menu_4">
-     <property name="title">
-      <string>Недавние папки</string>
-     </property>
-     <addaction name="action_empty"/>
-     <addaction name="separator"/>
-     <addaction name="action_clear_recent_list"/>
-    </widget>
     <addaction name="action_open"/>
     <addaction name="separator"/>
-    <addaction name="menu_4"/>
     <addaction name="separator"/>
     <addaction name="action_close"/>
     <addaction name="action_exit"/>
@@ -133,11 +124,6 @@
    </property>
    <property name="text">
     <string>(пусто)</string>
-   </property>
-  </action>
-  <action name="action_clear_recent_list">
-   <property name="text">
-    <string>Отчистить</string>
    </property>
   </action>
   <action name="action_close">
@@ -261,10 +247,13 @@
   </action>
   <action name="action_fit_to_screen">
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
-    <string>Растянуть</string>
+    <string>Подогнать размер</string>
+   </property>
+   <property name="toolTip">
+    <string>Подогнать размер</string>
    </property>
   </action>
  </widget>
