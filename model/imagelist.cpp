@@ -25,6 +25,11 @@ void ImageList::append(const Image &image)
     mImages.append(new Image(image));
 }
 
+void ImageList::append(Image *image)
+{
+    mImages.append(image);
+}
+
 ImageList::iterator ImageList::erase(ImageList::iterator iter)
 {
     Image *image = *iter;
