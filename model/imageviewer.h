@@ -2,6 +2,7 @@
 #define IMAGEVIEWER_H
 
 #include <QStringList>
+#include <QtConcurrent>
 
 #include "imagelist.h"
 #include "filesystemmanager.h"
@@ -32,20 +33,28 @@ public:
 
     void setCheckedAll(bool checked);
 
+    QFutureWatcher<void> *getWatcher();
+
 signals:
     void updated();
 
 public slots:
     void scanFinished(const ImageList &files);
 
-private:
-    QStringList getCheckedImages();
+private slots:
+    void updateCheckedImages();
     void eraseCheckedImages();
 
+private:
+
     ImageList mImageList;
+    QVector<Image*> mCheckedImages;
 
     ImageList::iterator mCurrentIterator;
+
     FileSystemManager filesystem;
+
+    QFutureWatcher<void> watcher;
 };
 
 #endif // IMAGEVIEWER_H

@@ -9,7 +9,9 @@
 #include <QMessageBox>
 #include <QCheckBox>
 
+
 #include "model/imageviewer.h"
+#include "loadingdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -64,6 +66,8 @@ private:
     QLabel *imageLabel;
     QScrollArea *scrollArea;
     QCheckBox *checkBoxChecked;
+
+    LoadingDialog *loadingDialog;
 };
 
 #endif // MAINWINDOW_H

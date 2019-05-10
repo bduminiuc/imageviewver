@@ -1,9 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QDebug>
-#include <QProgressDialog>
-
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,12 +8,20 @@ MainWindow::MainWindow(QWidget *parent) :
     mCurrentImage(nullptr),
     imageLabel(new QLabel),
     scrollArea(new QScrollArea),
-    checkBoxChecked(new QCheckBox)
+    checkBoxChecked(new QCheckBox),
+    loadingDialog(new LoadingDialog(this))
 {
     ui->setupUi(this);
     initInterface();
 
     connect(&mImageViewer, &ImageViewer::updated, this, &MainWindow::update);
+
+    QFutureWatcher<void> *watcher = mImageViewer.getWatcher();
+
+    connect(watcher, &QFutureWatcher<void>::finished, loadingDialog, &LoadingDialog::close);
+    connect(loadingDialog, &LoadingDialog::rejected, watcher, &QFutureWatcher<void>::cancel);
+    connect(watcher,  &QFutureWatcher<void>::progressRangeChanged, loadingDialog, &LoadingDialog::setRange);
+    connect(watcher, &QFutureWatcher<void>::progressValueChanged,  loadingDialog, &LoadingDialog::setValue);
 }
 
 MainWindow::~MainWindow()
@@ -56,6 +61,8 @@ void MainWindow::close_all()
 
     mCurrentImage = nullptr;
 
+    ui->action_check_all->setChecked(false);
+
     setWindowTitle("ImageViewer");
 }
 
@@ -84,9 +91,12 @@ void MainWindow::move()
         // if user press CANCEL in FileDialog
         return;
 
-    mImageViewer.moveChecked(directoryPath);
+    loadingDialog->setWindowTitle("Перемещение");
+    loadingDialog->setOperationTitle("Перемещение");
+    loadingDialog->setCurrentItemText("Перемещение элементов...");
 
-    ui->statusBar->showMessage("Move action");
+    mImageViewer.moveChecked(directoryPath);
+    loadingDialog->show();
 }
 
 void MainWindow::copy()
@@ -97,20 +107,22 @@ void MainWindow::copy()
         // if user press CANCEL in FileDialog
         return;
 
-    QProgressDialog progressDialog(this);
-    progressDialog.setWindowTitle("Копирование");
-    progressDialog.setLabelText("Копирование элементов");
-    progressDialog.exec();
+    loadingDialog->setWindowTitle("Копирование");
+    loadingDialog->setOperationTitle("Копирование");
+    loadingDialog->setCurrentItemText("Копирование элементов...");
 
     mImageViewer.copyChecked(directoryPath);
-
-    ui->statusBar->showMessage("Copy action");
+    loadingDialog->show();
 }
 
 void MainWindow::remove()
 {
+    loadingDialog->setWindowTitle("Удаление");
+    loadingDialog->setOperationTitle("Удаление");
+    loadingDialog->setCurrentItemText("Удаление элементов...");
+
     mImageViewer.removeChecked();
-    ui->statusBar->showMessage("Remove action");
+    loadingDialog->show();
 }
 
 void MainWindow::about()
