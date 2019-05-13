@@ -19,7 +19,8 @@ SOURCES += \
         directory.cpp \
         image.cpp \
         main.cpp \
-        movecommand.cpp
+        movecommand.cpp \
+        removecommand.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -32,4 +33,5 @@ HEADERS += \
     directory.h \
     image.h \
     movecommand.h \
+    removecommand.h \
     undoable.h
