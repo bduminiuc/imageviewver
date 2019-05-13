@@ -2,6 +2,7 @@
 
 #include <QFile>
 
+
 CopyCommand::CopyCommand(const QString &srcFile, const QString &dstFile) :
     mSrcFile(srcFile),
     mDstFile(dstFile)

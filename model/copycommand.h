@@ -6,6 +6,7 @@
 #include "command.h"
 #include "undoable.h"
 
+
 class CopyCommand : public Command, public Undoable
 {
 public:
