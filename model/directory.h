@@ -17,14 +17,15 @@ public:
 
     using iterator       = container::iterator;
     using const_iterator = container::const_iterator;
+    using size_type      = container::size_type;
 
 
 
-    class FilesNotFoundException : public QException
+    class FilesByFormatNotFoundException : public QException
     {
     public:
         void raise() const override;
-        FilesNotFoundException *clone() const override;
+        FilesByFormatNotFoundException *clone() const override;
     };
 
 
@@ -43,6 +44,8 @@ public:
     const_iterator cend()   const;
 
     QString getPath() const;
+
+    size_type count() const;
 
 
 signals:

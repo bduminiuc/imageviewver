@@ -26,7 +26,7 @@ void Directory::scan()
     QDirIterator it(mPath, mFormats, QDir::Files, QDirIterator::Subdirectories);
 
     if (! it.hasNext()) {
-        throw FilesNotFoundException();
+        throw FilesByFormatNotFoundException();
     }
 
     while(it.hasNext()) {
@@ -62,16 +62,21 @@ QString Directory::getPath() const
     return mPath;
 }
 
+Directory::size_type Directory::count() const
+{
+    return mImages.size();
+}
+
 
 /*****************************
  *
  *****************************/
-Directory::FilesNotFoundException *Directory::FilesNotFoundException::clone() const
+Directory::FilesByFormatNotFoundException *Directory::FilesByFormatNotFoundException::clone() const
 {
-    return new FilesNotFoundException(*this);
+    return new FilesByFormatNotFoundException(*this);
 }
 
-void Directory::FilesNotFoundException::raise() const
+void Directory::FilesByFormatNotFoundException::raise() const
 {
     throw *this;
 }
