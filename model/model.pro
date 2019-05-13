@@ -18,7 +18,8 @@ SOURCES += \
         copycommand.cpp \
         directory.cpp \
         image.cpp \
-        main.cpp
+        main.cpp \
+        movecommand.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -30,4 +31,5 @@ HEADERS += \
     copycommand.h \
     directory.h \
     image.h \
+    movecommand.h \
     undoable.h
