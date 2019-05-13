@@ -1,12 +1,14 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-08-15T16:53:51
+# Project created by QtCreator 2019-05-13T20:26:53
 #
 #-------------------------------------------------
 
-QT       += core gui widgets concurrent
+QT       += core gui
 
-TARGET = image-viewer
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = ui
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -23,32 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-    model/filesystemmanager.cpp \
-    model/image.cpp \
-    model/imagelist.cpp \
-    model/imageviewer.cpp \
-    ui/loadingdialog.cpp \
-    ui/mainwindow.cpp \
-    main.cpp
+        main.cpp \
+        mainwindow.cpp
 
 HEADERS += \
-    model/filesystemmanager.h \
-    model/image.h \
-    model/imagelist.h \
-    model/imageviewer.h \
-    ui/loadingdialog.h \
-    ui/mainwindow.h
+        mainwindow.h
 
 FORMS += \
-    ui/loadingdialog.ui \
-    ui/mainwindow.ui
+        mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-RESOURCES += \
-    resources.qrc
-
-win32:RC_ICONS += images/Picture-Viewer-icon.ico
