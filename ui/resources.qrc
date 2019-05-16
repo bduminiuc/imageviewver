@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/templates">
+        <file>images/default-image.jpg</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file>images/Picture-Viewer-icon.ico</file>
+    </qresource>
+</RCC>
