@@ -1,5 +1,6 @@
 #include "directory.h"
 
+#include <exception>
 #include <QDirIterator>
 
 
@@ -26,7 +27,8 @@ void Directory::scan()
     QDirIterator it(mPath, mFormats, QDir::Files, QDirIterator::Subdirectories);
 
     if (! it.hasNext()) {
-        throw FilesByFormatNotFoundException();
+        std::string message = mPath.toStdString() + " does not contain files";
+        throw std::runtime_error(message);
     }
 
     while(it.hasNext()) {
@@ -65,18 +67,4 @@ QString Directory::getPath() const
 Directory::size_type Directory::count() const
 {
     return mImages.size();
-}
-
-
-/*****************************
- *
- *****************************/
-Directory::FilesByFormatNotFoundException *Directory::FilesByFormatNotFoundException::clone() const
-{
-    return new FilesByFormatNotFoundException(*this);
-}
-
-void Directory::FilesByFormatNotFoundException::raise() const
-{
-    throw *this;
 }

@@ -20,16 +20,6 @@ public:
     using size_type      = container::size_type;
 
 
-
-    class FilesByFormatNotFoundException : public QException
-    {
-    public:
-        void raise() const override;
-        FilesByFormatNotFoundException *clone() const override;
-    };
-
-
-
     Directory(const QStringList &mFormats);
 
     void open(const QString &path);
