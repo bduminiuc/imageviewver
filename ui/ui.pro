@@ -38,3 +38,16 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../imageviewer-model/release/ -limageviewer-model
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../imageviewer-model/debug/ -limageviewer-model
+else:unix:!macx: LIBS += -L$$OUT_PWD/../imageviewer-model/ -limageviewer-model
+
+INCLUDEPATH += $$PWD/../imageviewer-model
+DEPENDPATH += $$PWD/../imageviewer-model
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../imageviewer-model/release/libimageviewer-model.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../imageviewer-model/debug/libimageviewer-model.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../imageviewer-model/release/imageviewer-model.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../imageviewer-model/debug/imageviewer-model.lib
+else:unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../imageviewer-model/libimageviewer-model.a

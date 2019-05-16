@@ -1,6 +1,8 @@
 TEMPLATE = subdirs
 
+CONFIG += ordered
+
 SUBDIRS += \
-    model \
+    imageviewer-model \
     test \
     ui
