@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFileSystemModel>
+#include <QFileIconProvider>
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +22,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    QFileSystemModel *model;
 };
 
 #endif // MAINWINDOW_H
