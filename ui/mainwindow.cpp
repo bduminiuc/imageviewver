@@ -3,6 +3,15 @@
 
 #include <QFileDialog>
 #include <QSizeGrip>
+#include <QBitmap>
+
+
+void changePixmapColor(QPixmap &pixmap, const QColor &color)
+{
+    QBitmap mask = pixmap.createMaskFromColor(QColor("transparent"));
+    pixmap.fill(color);
+    pixmap.setMask(mask);
+}
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -29,6 +38,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeView->hideColumn(2);
     ui->treeView->hideColumn(3);
     ui->treeView->header()->hide();
+
+    QPixmap buttonIcon(":/icons/images/baseline-check-24px.svg");
+    changePixmapColor(buttonIcon, QColor("blue"));
+
+    //buttonIcon.fill(QColor("red"));
+    QIcon icon(buttonIcon);
+
+    ui->pushButton->setIcon(icon);
+    ui->pushButton->setIconSize(buttonIcon.rect().size());
 }
 
 MainWindow::~MainWindow()
