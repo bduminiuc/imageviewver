@@ -20,5 +20,6 @@
         <file>images/baseline-settings-20px.svg</file>
         <file>images/baseline-zoom_in-24px.svg</file>
         <file>images/baseline-zoom_out-24px.svg</file>
+        <file>images/baseline-folder_open-24px.svg</file>
     </qresource>
 </RCC>
