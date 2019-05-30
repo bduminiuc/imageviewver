@@ -25,10 +25,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        customtreeview.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        customtreeview.h \
         mainwindow.h
 
 FORMS += \
