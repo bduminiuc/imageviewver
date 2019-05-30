@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->treeView->setModel(model);
 
-    treeView->move(400, 20);
+    treeView->move(400, 50);
     treeView->setCountTotal(50);
     treeView->setCountMarked(20);
     treeView->setModel(model);

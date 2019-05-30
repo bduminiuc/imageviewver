@@ -88,8 +88,8 @@
    <widget class="QFrame" name="toolBarFrame">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>520</y>
+      <x>180</x>
+      <y>440</y>
       <width>700</width>
       <height>60</height>
      </rect>
