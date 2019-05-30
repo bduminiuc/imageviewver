@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include <QFileSystemModel>
 #include <QFileIconProvider>
-#include "customtreeview.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,7 +25,6 @@ private:
     Ui::MainWindow *ui;
 
     QFileSystemModel *model;
-    //CustomTreeView *treeView;
 };
 
 #endif // MAINWINDOW_H
