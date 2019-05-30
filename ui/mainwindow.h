@@ -5,6 +5,8 @@
 #include <QFileSystemModel>
 #include <QFileIconProvider>
 
+#include "iterabledirectory.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -26,18 +28,16 @@ private slots:
 
     void on_actionPrev_triggered();
 
+    void changeImage(const QString &path);
+
 private:
     void fitImageToScreen();
-    void setImage(const QString &path);
-    void initializeTreeView();
 
     Ui::MainWindow *ui;
 
     QFileSystemModel *model;
-    QString mCurrentImage;
 
-    QStringList files;
-    QStringList nameFilters = {"*.jpg", "*.png", "*.ico"};
+    IterableDirectory mDirectory;
 };
 
 #endif // MAINWINDOW_H

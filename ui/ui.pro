@@ -25,10 +25,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        iterabledirectory.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        iterabledirectory.h \
         mainwindow.h
 
 FORMS += \

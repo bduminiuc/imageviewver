@@ -13,12 +13,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QStringList nameFilters = {"*.jpg", "*.png", "*.ico"};
+
+    mDirectory.setNameFilters(nameFilters);
+
     model->setNameFilters(nameFilters);
     model->setNameFilterDisables(false);
     model->iconProvider()->setOptions(QFileIconProvider::DontUseCustomDirectoryIcons);
 
     addAction(ui->actionOpen);
     addAction(ui->actionNext);
+
+    connect(&mDirectory, &IterableDirectory::itemChanged, this, &MainWindow::changeImage);
 }
 
 MainWindow::~MainWindow()
@@ -35,13 +41,15 @@ void MainWindow::on_actionOpen_triggered()
     }
 
     if (! ui->treeView->model()) {
-        initializeTreeView();
+        ui->treeView->setModel(model);
+
+        ui->treeView->hideColumn(1);
+        ui->treeView->hideColumn(2);
+        ui->treeView->hideColumn(3);
     }
 
-    QDir currentDirectory(path);
-
-    model->setRootPath(currentDirectory.path());
-    ui->labelRootPath->setText(currentDirectory.path());
+    model->setRootPath(path);
+    ui->labelRootPath->setText(path);
 
     if (! path.isEmpty()) {
 
@@ -50,44 +58,25 @@ void MainWindow::on_actionOpen_triggered()
         if (rootIndex.isValid()) {
             ui->treeView->setRootIndex(rootIndex);
 
-            files = currentDirectory.entryList(nameFilters, QDir::Files);
-            QStringList::iterator begin = files.begin();
-
-            QString imagePath =currentDirectory.path() + QDir::separator() + *begin;
-
-            QModelIndex index = model->index(imagePath);
-
-            if (index.isValid()) {
-                setImage(imagePath);
-                ui->treeView->setCurrentIndex(index);
-            }
+            mDirectory.open(path);
         }
 
         ui->treeView->expandAll();
     }
 }
 
-void MainWindow::initializeTreeView()
-{
-    ui->treeView->setModel(model);
-
-    ui->treeView->hideColumn(1);
-    ui->treeView->hideColumn(2);
-    ui->treeView->hideColumn(3);
-}
-
 void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
 {
-    QFileInfo fileInfo = model->fileInfo(index);
+    /*QFileInfo fileInfo = model->fileInfo(index);
 
     if (fileInfo.isFile()) {
         QString absPath = fileInfo.absoluteFilePath();
         setImage(absPath);
         ui->treeView->setCurrentIndex(index);
-    }
+    }*/
 }
 
-void MainWindow::setImage(const QString &path)
+void MainWindow::changeImage(const QString &path)
 {
     // reading of current image
     QImageReader reader(path);
@@ -103,7 +92,17 @@ void MainWindow::setImage(const QString &path)
     fitImageToScreen();
 
     ui->labelImage->adjustSize();
-    mCurrentImage = path;
+
+    // switch treeView current index
+    QModelIndex index = model->index(path);
+    if (index.isValid()) {
+        ui->treeView->setCurrentIndex(index);
+    }
+
+    // update current status label
+    ui->labelStatusCount->setText(QString::number(mDirectory.getCurrentNumber())
+                                  + " из "
+                                  + QString::number(mDirectory.count()));
 }
 
 void MainWindow::fitImageToScreen()
@@ -122,26 +121,10 @@ void MainWindow::fitImageToScreen()
 
 void MainWindow::on_actionNext_triggered()
 {
-    QModelIndex index = ui->treeView->currentIndex();
-    QModelIndex next = index.sibling(index.row() + 1, index.column());
-
-    qDebug() << model->fileInfo(next).isFile();
-    qDebug() << model->rowCount();
-
-    ui->treeView->setCurrentIndex(next);
-
-    /*int indexIncrement = 0;
-
-    do {
-        indexIncrement += 1;
-        next = index.sibling(index.row() + indexIncrement, index.column());
-    }
-    while (! model->fileInfo(next).isFile());
-    */
-
+    mDirectory.next();
 }
 
 void MainWindow::on_actionPrev_triggered()
 {
-
+    mDirectory.previous();
 }
