@@ -22,12 +22,22 @@ private slots:
 
     void on_treeView_doubleClicked(const QModelIndex &index);
 
+    void on_actionNext_triggered();
+
+    void on_actionPrev_triggered();
+
 private:
+    void fitImageToScreen();
+    void setImage(const QString &path);
     void initializeTreeView();
 
     Ui::MainWindow *ui;
 
     QFileSystemModel *model;
+    QString mCurrentImage;
+
+    QStringList files;
+    QStringList nameFilters = {"*.jpg", "*.png", "*.ico"};
 };
 
 #endif // MAINWINDOW_H

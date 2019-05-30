@@ -308,19 +308,6 @@ QPushButton:pressed {
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
-             <spacer name="horizontalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>175</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
              <widget class="QLabel" name="labelImage">
               <property name="text">
                <string/>
@@ -335,19 +322,6 @@ QPushButton:pressed {
                <set>Qt::AlignCenter</set>
               </property>
              </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_5">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>174</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
             </item>
            </layout>
           </widget>
@@ -779,6 +753,28 @@ color: red;</string>
     <string>Ctrl+O</string>
    </property>
   </action>
+  <action name="actionNext">
+   <property name="text">
+    <string>Следующий</string>
+   </property>
+   <property name="toolTip">
+    <string>Следующий</string>
+   </property>
+   <property name="shortcut">
+    <string>Right</string>
+   </property>
+  </action>
+  <action name="actionPrev">
+   <property name="text">
+    <string>Предыдущий</string>
+   </property>
+   <property name="toolTip">
+    <string>Предыдущий</string>
+   </property>
+   <property name="shortcut">
+    <string>Left</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
@@ -794,6 +790,38 @@ color: red;</string>
     <hint type="sourcelabel">
      <x>29</x>
      <y>24</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonNext</sender>
+   <signal>clicked()</signal>
+   <receiver>actionNext</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>842</x>
+     <y>584</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonPrevious</sender>
+   <signal>clicked()</signal>
+   <receiver>actionPrev</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>740</x>
+     <y>584</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
