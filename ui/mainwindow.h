@@ -20,6 +20,7 @@ public:
 private slots:
     void on_actionOpen_triggered();
 
+    void on_treeView_doubleClicked(const QModelIndex &index);
 
 private:
     void initializeTreeView();

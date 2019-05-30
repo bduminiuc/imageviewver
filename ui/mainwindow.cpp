@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     model->iconProvider()->setOptions(QFileIconProvider::DontUseCustomDirectoryIcons);
 
     addAction(ui->actionOpen);
+
+    //connect(ui->treeView, &QTreeView::doubleClicked, this, &MainWindow::on_treeView_doubleClicked);
 }
 
 MainWindow::~MainWindow()
@@ -40,6 +42,7 @@ void MainWindow::on_actionOpen_triggered()
     }
 
     model->setRootPath(path);
+    ui->labelRootPath->setText(path);
 
     if (! path.isEmpty()) {
         const QModelIndex rootIndex = model->index(QDir::cleanPath(path));
@@ -58,4 +61,9 @@ void MainWindow::initializeTreeView()
     ui->treeView->hideColumn(1);
     ui->treeView->hideColumn(2);
     ui->treeView->hideColumn(3);
+}
+
+void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
+{
+    qDebug() << "Double click";
 }
