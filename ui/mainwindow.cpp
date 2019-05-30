@@ -15,16 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QStringList nameFilters = {"*.jpg", "*.png", "*.ico"};
 
     //model->setRootPath("");
-    //model->setFilter(QDir::Dirs | QDir::Files);
     model->setNameFilters(nameFilters);
     model->setNameFilterDisables(false);
     model->iconProvider()->setOptions(QFileIconProvider::DontUseCustomDirectoryIcons);
-
-    ui->treeView->setModel(model);
-
-    ui->treeView->hideColumn(1);
-    ui->treeView->hideColumn(2);
-    ui->treeView->hideColumn(3);
 
     addAction(ui->actionOpen);
 }
@@ -36,7 +29,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString path = QFileDialog::getExistingDirectory(this, "Caption");
+    QString path = QFileDialog::getExistingDirectory(this, "Выберите папку");
+
+    if (path == "") {
+        return;
+    }
+
+    if (! ui->treeView->model()) {
+        initializeTreeView();
+    }
 
     model->setRootPath(path);
 
@@ -48,4 +49,13 @@ void MainWindow::on_actionOpen_triggered()
 
         ui->treeView->expandAll();
     }
+}
+
+void MainWindow::initializeTreeView()
+{
+    ui->treeView->setModel(model);
+
+    ui->treeView->hideColumn(1);
+    ui->treeView->hideColumn(2);
+    ui->treeView->hideColumn(3);
 }

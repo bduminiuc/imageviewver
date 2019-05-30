@@ -22,6 +22,8 @@ private slots:
 
 
 private:
+    void initializeTreeView();
+
     Ui::MainWindow *ui;
 
     QFileSystemModel *model;

@@ -18,7 +18,7 @@
     <normaloff>:/icons/images/Picture-Viewer-icon.ico</normaloff>:/icons/images/Picture-Viewer-icon.ico</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow#MainWindow { background-color: rgb(233, 240, 255);}
+   <string notr="true">QMainWindow#MainWindow { /*background-color: rgb(233, 240, 255);*/}
 
 QTreeView, QScrollArea { border: none; }
 QTreeView { 
@@ -212,7 +212,7 @@ QPushButton:pressed {
       <property name="childrenCollapsible">
        <bool>false</bool>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QGridLayout" name="gridLayout">
         <property name="leftMargin">
          <number>9</number>
@@ -286,7 +286,7 @@ QPushButton:pressed {
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <property name="leftMargin">
          <number>9</number>
@@ -310,7 +310,7 @@ QPushButton:pressed {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>785</width>
+             <width>716</width>
              <height>483</height>
             </rect>
            </property>
