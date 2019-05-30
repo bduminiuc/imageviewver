@@ -1,7 +1,7 @@
 #include "iterabledirectory.h"
 
 #include <QDirIterator>
-#include <QDebug>
+
 
 IterableDirectory::IterableDirectory(QObject *parent) :
     QObject(parent)
@@ -13,14 +13,12 @@ void IterableDirectory::open(const QString &directory)
 {
     mDirectory = QDir(directory);
     scan();
-    emit itemChanged(getAbsoluteFilePath());
 }
 
 void IterableDirectory::open(const QDir &directory)
 {
     mDirectory = directory;
     scan();
-    emit itemChanged(getAbsoluteFilePath());
 }
 
 void IterableDirectory::setNameFilters(const QStringList &nameFilters)
@@ -33,26 +31,6 @@ IterableDirectory::size_type IterableDirectory::count() const
     return mFiles.size();
 }
 
-IterableDirectory::iterator IterableDirectory::begin()
-{
-    return mFiles.begin();
-}
-
-IterableDirectory::iterator IterableDirectory::end()
-{
-    return mFiles.end();
-}
-
-IterableDirectory::const_iterator IterableDirectory::cbegin() const
-{
-    return mFiles.cbegin();
-}
-
-IterableDirectory::const_iterator IterableDirectory::cend() const
-{
-    return mFiles.cend();
-}
-
 QString IterableDirectory::getCurrent() const
 {
     return getAbsoluteFilePath();
@@ -63,28 +41,36 @@ int IterableDirectory::getCurrentNumber() const
     return mCurrentIterator - mFiles.cbegin() + 1;
 }
 
+void IterableDirectory::setCurrentItem(const QString &absPath)
+{
+    QString relPath = mDirectory.relativeFilePath(absPath);
+
+    if (mFiles.contains(relPath)) {
+        setCurrentIterator(std::find(mFiles.begin(), mFiles.end(), relPath));
+    }
+    else {
+        throw std::string("mFiles does not contain ") + absPath.toStdString();
+    }
+}
+
 void IterableDirectory::next()
 {
     if ((mCurrentIterator + 1) == mFiles.end()) {
-        mCurrentIterator = mFiles.begin();
+        setCurrentIterator(mFiles.begin());
     }
     else {
-        mCurrentIterator++;
+        setCurrentIterator(mCurrentIterator + 1);
     }
-
-    emit itemChanged(getAbsoluteFilePath());
 }
 
 void IterableDirectory::previous()
 {
     if (mCurrentIterator == mFiles.begin()) {
-        mCurrentIterator = mFiles.end() - 1;
+        setCurrentIterator(mFiles.end() - 1);
     }
     else {
-        mCurrentIterator--;
+        setCurrentIterator(mCurrentIterator - 1);
     }
-
-    emit itemChanged(getAbsoluteFilePath());
 }
 
 void IterableDirectory::scan()
@@ -102,7 +88,13 @@ void IterableDirectory::scan()
         mFiles.append(filePath);
     }
 
-    mCurrentIterator = mFiles.begin();
+    setCurrentIterator(mFiles.begin());
+}
+
+void IterableDirectory::setCurrentIterator(IterableDirectory::const_iterator current)
+{
+    mCurrentIterator = current;
+    emit itemChanged(getAbsoluteFilePath());
 }
 
 QString IterableDirectory::getAbsoluteFilePath() const

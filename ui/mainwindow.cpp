@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     addAction(ui->actionOpen);
     addAction(ui->actionNext);
+    addAction(ui->actionPrev);
 
     connect(&mDirectory, &IterableDirectory::itemChanged, this, &MainWindow::changeImage);
 }
@@ -67,13 +68,13 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
 {
-    /*QFileInfo fileInfo = model->fileInfo(index);
+    QFileInfo fileInfo = model->fileInfo(index);
 
     if (fileInfo.isFile()) {
         QString absPath = fileInfo.absoluteFilePath();
-        setImage(absPath);
+        mDirectory.setCurrentItem(absPath);
         ui->treeView->setCurrentIndex(index);
-    }*/
+    }
 }
 
 void MainWindow::changeImage(const QString &path)

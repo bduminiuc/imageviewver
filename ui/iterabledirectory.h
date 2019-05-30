@@ -20,16 +20,10 @@ public:
 
     size_type count() const;
 
-private:
-    iterator begin();
-    iterator end();
-
-    const_iterator cbegin() const;
-    const_iterator cend()   const;
-
-public:
     QString getCurrent() const;
     int getCurrentNumber() const;
+
+    void setCurrentItem(const QString &absPath);
 
 signals:
     void itemChanged(const QString &path);
@@ -41,6 +35,7 @@ public slots:
 
 private:
     void scan();
+    void setCurrentIterator(const_iterator current);
     QString getAbsoluteFilePath() const;
 
     QDir mDirectory;
