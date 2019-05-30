@@ -19,12 +19,14 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_actionOpen_triggered();
+
 
 private:
     Ui::MainWindow *ui;
 
     QFileSystemModel *model;
-    CustomTreeView *treeView;
+    //CustomTreeView *treeView;
 };
 
 #endif // MAINWINDOW_H

@@ -2,8 +2,8 @@
 #include "ui_mainwindow.h"
 
 #include <QFileDialog>
-#include <QSizeGrip>
 #include <QBitmap>
+#include <QDebug>
 
 
 void changePixmapColor(QPixmap &pixmap, const QColor &color)
@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     model(new QFileSystemModel(this))
 {
     ui->setupUi(this);
-    treeView = new CustomTreeView(ui->centralWidget);
+    //treeView = new CustomTreeView(ui->centralWidget);
 
     QStringList nameFilters = {"*.jpg", "*.png", "*.ico"};
 
@@ -32,14 +32,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->treeView->setModel(model);
 
-    treeView->move(400, 50);
-    treeView->setCountTotal(50);
-    treeView->setCountMarked(20);
-    treeView->setModel(model);
+    ui->treeView->move(400, 50);
+    //ui->treeView->setCountTotal(50);
+    //ui->treeView->setCountMarked(20);
+    ui->treeView->setModel(model);
 
-    treeView->hideColumn(1);
-    treeView->hideColumn(2);
-    treeView->hideColumn(3);
+    ui->treeView->hideColumn(1);
+    ui->treeView->hideColumn(2);
+    ui->treeView->hideColumn(3);
+
+    addAction(ui->actionOpen);
 /*
     QPixmap buttonIcon(":/icons/images/baseline-check-24px.svg");
     changePixmapColor(buttonIcon, QColor("blue"));
@@ -72,3 +74,8 @@ void MainWindow::on_pushButton_clicked()
     ui->treeView->expandAll();
 }
 */
+
+void MainWindow::on_actionOpen_triggered()
+{
+    qDebug() << "action open";
+}
