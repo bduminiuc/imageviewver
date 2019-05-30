@@ -123,6 +123,21 @@ background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0
 
 QPushButton:pressed {
 	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(230, 230, 230, 255));
+}
+
+QSlider::groove:horizontal {
+    border: 1px solid #999999;
+    height: 8px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f);
+    border: 1px solid #5c5c5c;
+    width: 18px;
+    margin: -2px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
+    border-radius: 3px;
 }</string>
     </property>
     <property name="frameShape">
@@ -230,6 +245,51 @@ QPushButton:pressed {
      </item>
      <item>
       <widget class="Line" name="line">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSlider" name="horizontalSlider">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: transparent;
+color: red;</string>
+       </property>
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>5</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="tickPosition">
+        <enum>QSlider::NoTicks</enum>
+       </property>
+       <property name="tickInterval">
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_7">
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -447,6 +507,41 @@ QPushButton:pressed {
          <width>24</width>
          <height>24</height>
         </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>200</y>
+      <width>230</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: transparent;</string>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetNoConstraint</enum>
+     </property>
+     <item row="0" column="0">
+      <widget class="Line" name="line_6">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>5</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">margin-left: 1px;
+background: white;</string>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
       </widget>
      </item>
