@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     model(new QFileSystemModel(this))
 {
     ui->setupUi(this);
+    treeView = new CustomTreeView(ui->centralWidget);
 
     QStringList nameFilters = {"*.jpg", "*.png", "*.ico"};
 
@@ -30,15 +31,16 @@ MainWindow::MainWindow(QWidget *parent) :
     model->iconProvider()->setOptions(QFileIconProvider::DontUseCustomDirectoryIcons);
 
     ui->treeView->setModel(model);
-    ui->treeView->setAnimated(false);
-    ui->treeView->setIndentation(20);
-    ui->treeView->setSortingEnabled(true);
 
-    ui->treeView->hideColumn(1);
-    ui->treeView->hideColumn(2);
-    ui->treeView->hideColumn(3);
-    ui->treeView->header()->hide();
+    treeView->move(400, 20);
+    treeView->setCountTotal(50);
+    treeView->setCountMarked(20);
+    treeView->setModel(model);
 
+    treeView->hideColumn(1);
+    treeView->hideColumn(2);
+    treeView->hideColumn(3);
+/*
     QPixmap buttonIcon(":/icons/images/baseline-check-24px.svg");
     changePixmapColor(buttonIcon, QColor("blue"));
 
@@ -46,14 +48,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QIcon icon(buttonIcon);
 
     ui->pushButton->setIcon(icon);
-    ui->pushButton->setIconSize(buttonIcon.rect().size());
+    ui->pushButton->setIconSize(buttonIcon.rect().size());*/
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+/*
 void MainWindow::on_pushButton_clicked()
 {
     QString path = QFileDialog::getExistingDirectory(this, "Caption");
@@ -69,3 +71,4 @@ void MainWindow::on_pushButton_clicked()
 
     ui->treeView->expandAll();
 }
+*/
